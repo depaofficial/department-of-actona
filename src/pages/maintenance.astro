@@ -12,15 +12,19 @@ import logoplain from "../images/logoplain.svg";
   <body>
     <main class="wall">
       <img class="wall__logo" src={logoplain.src} alt="Department of ACTONA" />
-      <p class="wall__title">Department of ACTONA</p>
+      <p class="wall__title">DEPARTMENT OF ACTONA</p>
       <p class="wall__message">This website is currently under construction.</p>
     </main>
   </body>
 </html>
 
 <style>
+  @import "@fontsource/ibm-plex-sans/400.css";
+  @import "@fontsource/ibm-plex-sans/600.css";
+
   :root {
     --brand-900: #0b2a4a;
+    --font-sans: "IBM Plex Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html, body { height: 100%; }
@@ -31,21 +35,22 @@ import logoplain from "../images/logoplain.svg";
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 1rem;
+    gap: 0.85rem;
     text-align: center;
     padding: 2rem;
   }
-  .wall__logo { width: min(300px, 70vw); height: auto; }
+  .wall__logo { width: min(150px, 45vw); height: auto; }
   .wall__title {
-    font-family: Georgia, "Times New Roman", serif;
-    font-size: 1.15rem;
+    font-family: var(--font-sans);
+    font-size: 0.95rem;
+    font-weight: 700;
     letter-spacing: 0.22em;
     text-transform: uppercase;
     color: rgba(255, 255, 255, 0.9);
   }
   .wall__message {
-    font-family: Georgia, "Times New Roman", serif;
-    font-size: 1rem;
+    font-family: var(--font-sans);
+    font-size: 0.9rem;
     color: rgba(255, 255, 255, 0.62);
   }
 </style>
