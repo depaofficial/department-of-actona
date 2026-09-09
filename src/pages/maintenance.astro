@@ -1,0 +1,51 @@
+---
+import logoplain from "../images/logoplain.svg";
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Department of ACTONA — website under construction." />
+    <title>Department of ACTONA</title>
+  </head>
+  <body>
+    <main class="wall">
+      <img class="wall__logo" src={logoplain.src} alt="Department of ACTONA" />
+      <p class="wall__title">Department of ACTONA</p>
+      <p class="wall__message">This website is currently under construction.</p>
+    </main>
+  </body>
+</html>
+
+<style>
+  :root {
+    --brand-900: #0b2a4a;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { height: 100%; }
+  body { background: var(--brand-900); }
+  .wall {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    text-align: center;
+    padding: 2rem;
+  }
+  .wall__logo { width: min(300px, 70vw); height: auto; }
+  .wall__title {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1.15rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.9);
+  }
+  .wall__message {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.62);
+  }
+</style>

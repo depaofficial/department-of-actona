@@ -1,190 +1,30 @@
 ---
 import { url } from "../lib/url";
-import { bannerSrc, thumbSrc } from "../lib/banner";
-import BaseLayout from "../layouts/BaseLayout.astro";
-import StatusBadge from "../components/StatusBadge.astro";
-import { getCollection } from "astro:content";
-import { formatDate } from "../lib/format";
-
-const allNews = (await getCollection("news", ({ data }) => data.published))
-  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
-
-const [heroNews, ...restNews] = allNews;
-const secondNews = restNews[0];
-const latestNews = restNews.slice(1, 5);
-
-const allNotices = (await getCollection("notices", ({ data }) => data.published))
-  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
-const notices = allNotices.slice(0, 3);
-
-const allArchive = (await getCollection("archive", ({ data }) => data.published))
-  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
-const archive = allArchive.slice(0, 3);
-
-const heroBanner = heroNews?.data.banner;
-
-const settings = await getCollection("settings", ({ data }) => data.key === "home");
-const homeSettings = settings[0]?.data;
-const slogan = homeSettings?.slogan;
+const target = url("/maintenance/");
 ---
-<BaseLayout title="Home" current="home">
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="refresh" content={`0; url=${target}`} />
+    <title>Department of ACTONA</title>
+  </head>
+  <body>
+    <p>Redirecting to <a href={target}>the Department of ACTONA</a>...</p>
+  </body>
+</html>
 
-  {/* ── SLOGAN BAND (edit src/content/settings/home.json) ── */}
-  {slogan && (
-    <section class="slogan-band" aria-label="Department motto">
-      <p class="slogan-band__text">{slogan}</p>
-    </section>
-  )}
-
-  {/* ── FULL-WIDTH HERO: lead news ── */}
-  {heroNews && (
-    <section class="hero-wide">
-      <a class="hero-wide__media" href={url(`/news/${heroNews.id}/`)}>
-        <img src={bannerSrc(heroBanner)} alt={heroBanner?.caption ?? heroNews.data.title} />
-        <span class="hero-wide__overlay">
-          {(heroNews.data.breaking || heroNews.data.live) && (
-            <span class="tag-group tag-group--light">
-              {heroNews.data.breaking && <span class="breaking-tag">Breaking</span>}
-              {heroNews.data.live && (
-                <span class="live-tag"><span class="live-tag__dot" aria-hidden="true"></span>Live</span>
-              )}
-            </span>
-          )}
-          <span class="hero-wide__kicker">{heroNews.data.id} &middot; {formatDate(heroNews.data.date)}</span>
-          <span class="hero-wide__title">{heroNews.data.title}</span>
-          <span class="hero-wide__summary">{heroNews.data.summary}</span>
-        </span>
-      </a>
-    </section>
-  )}
-
-  <div class="wrap wrap--wide">
-
-    {/* ── MAGAZINE TOP: latest news | second hero | notices ── */}
-    <section class="mag-top">
-      <div class="mag-col">
-        <div class="mag-head"><h2>Latest News</h2></div>
-        {latestNews.length > 0 ? (
-          latestNews.map((item) => (
-            <a class="thumb-row" href={url(`/news/${item.id}/`)}>
-              <img class="thumb-row__img" src={thumbSrc(item.data.banner)} alt="" loading="lazy" />
-              <span class="thumb-row__body">
-                  {(item.data.breaking || item.data.live) && (
-                    <span class="tag-group">
-                      {item.data.breaking && <span class="breaking-tag">Breaking</span>}
-                      {item.data.live && (
-                        <span class="live-tag"><span class="live-tag__dot" aria-hidden="true"></span>Live</span>
-                      )}
-                    </span>
-                  )}
-                  <span class="thumb-row__title">{item.data.title}</span>
-                  <span class="thumb-row__date mono">{formatDate(item.data.date)}</span>
-                </span>
-              </a>
-          ))
-        ) : (
-          <p class="text-muted" style="font-size:0.85rem;">No further articles are currently available.</p>
-        )}
-      </div>
-
-      {/* ── SECOND HERO: next news ── */}
-      <div class="mag-col mag-col--hero">
-        {secondNews ? (
-          <article class="mag-hero">
-            <a class="mag-hero__media" href={url(`/news/${secondNews.id}/`)}>
-              {(secondNews.data.breaking || secondNews.data.live) && (
-                <span class="tag-group tag-group--top">
-                  {secondNews.data.breaking && <span class="breaking-tag">Breaking</span>}
-                  {secondNews.data.live && (
-                    <span class="live-tag"><span class="live-tag__dot" aria-hidden="true"></span>Live</span>
-                  )}
-                </span>
-              )}
-              <img src={bannerSrc(secondNews.data.banner)} alt={secondNews.data.title} />
-              <span class="mag-hero__overlay">
-                <span class="mag-hero__kicker">{secondNews.data.id} &middot; {formatDate(secondNews.data.date)}</span>
-                <span class="mag-hero__title">{secondNews.data.title}</span>
-                <span class="mag-hero__summary">{secondNews.data.summary}</span>
-              </span>
-            </a>
-          </article>
-        ) : (
-          <div class="mag-hero">
-            <div class="mag-hero--plain">
-              <p class="text-muted" style="color:rgba(255,255,255,0.8);">A further article will be published after verification.</p>
-            </div>
-          </div>
-        )}
-      </div>
-
-      <div class="mag-col" id="notices">
-        <div class="mag-head">
-          <h2>Public Notices</h2>
-          <a class="section__more" href={url("/notices/")}>All notices &rarr;</a>
-        </div>
-        {notices.length > 0 ? (
-          notices.map((notice) => (
-            <a class="mag-row" href={url("/notices/")}>
-              <span class="mag-row__id mono">{notice.data.id} &middot; {formatDate(notice.data.date)}</span>
-              <span class="mag-row__title">{notice.data.title}</span>
-              {notice.data.body[0] && (
-                <span class="mag-row__meta">{notice.data.body[0].slice(0, 110)}{notice.data.body[0].length > 110 ? "…" : ""}</span>
-              )}
-            </a>
-          ))
-        ) : (
-          <p class="text-muted" style="font-size:0.85rem;">No notices are currently in effect.</p>
-        )}
-      </div>
-    </section>
-
-    {/* ── FROM THE ARCHIVE ── */}
-    <section class="mag-section">
-      <div class="mag-head">
-        <h2>From the Archive</h2>
-        <a class="section__more" href={url("/archive/")}>Browse archive &rarr;</a>
-      </div>
-      {archive.length > 0 ? (
-        <div class="mag-cards">
-          {archive.map((item) => (
-            <a class="mag-card" href={url(`/archive/${item.id}/`)}>
-              <span class="mag-card__body">
-                <span class="mag-card__kicker mono">{item.data.archiveId}</span>
-                <span class="mag-card__title">{item.data.title}</span>
-                <span class="mag-row__meta">{item.data.category}</span>
-                <StatusBadge status={item.data.status} />
-              </span>
-            </a>
-          ))}
-        </div>
-      ) : (
-        <p class="text-muted" style="font-size:0.85rem;">Additional records will be published following verification.</p>
-      )}
-    </section>
-
-    {/* ── SERVICES ── */}
-    <section class="mag-section">
-      <div class="mag-head"><h2>Services</h2></div>
-      <div class="service-grid">
-        <a class="service-tile" href={url("/archive/")}>
-          <span class="service-tile__title">Public Archive</span>
-          <p class="service-tile__text">Search and browse published records.</p>
-        </a>
-        <a class="service-tile" href={url("/search/")}>
-          <span class="service-tile__title">Search Records</span>
-          <p class="service-tile__text">Find records across the portal.</p>
-        </a>
-        <a class="service-tile" href={url("/news/")}>
-          <span class="service-tile__title">News</span>
-          <p class="service-tile__text">Official announcements and updates.</p>
-        </a>
-        <a class="service-tile" href={url("/contact/")}>
-          <span class="service-tile__title">Contact</span>
-          <p class="service-tile__text">Reach the Department directly.</p>
-        </a>
-      </div>
-    </section>
-
-  </div>
-
-</BaseLayout>
+<style>
+  body {
+    font-family: Georgia, "Times New Roman", serif;
+    background: #0b2a4a;
+    color: rgba(255, 255, 255, 0.85);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    margin: 0;
+  }
+  a { color: #d9a12b; }
+</style>
