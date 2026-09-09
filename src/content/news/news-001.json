@@ -1,23 +1,22 @@
 {
   "id": "NEWS",
-  "title": "Historical Disc Discovered During Excavation",
-  "date": "2026-09-20",
+  "title": "Introduction",
+  "date": "2026-09-09",
   "department": "Department of ACTONA",
-  "summary": "The Department has confirmed the discovery of an unidentified historical disc during an archaeological excavation.",
+  "summary": "Welcome to the Department of ACTONA's news portal. This platform provides updates on our ongoing projects, discoveries, and research initiatives.",
   "banner": {
     "type": "image",
-    "src": "/banner-placeholder.jpg",
-    "caption": "Excavation Site 4 — recovery in progress. Image: Department of ACTONA."
+    "src": "",
+    "caption": "Image: Department of ACTONA."
   },
   "body": [
-    "The Department has confirmed the discovery of an unidentified historical disc during an archaeological excavation carried out under a routine site survey.",
-    "The object was recovered in a stable condition and has been transferred to the Department's archival facilities for cataloguing and analysis.",
-    "Initial assessment classifies the material as archaeological in nature. Further findings will be published as the review process continues.",
-    "The Department is coordinating the analysis of the object and any associated materials found at the site."
+    "Our government has officially launched its first state-operated news portal. Providing reliable information, education, and public safety to citizens across the country.",
+    "What are the latest discoveries? What events are currently unfolding? And what information matters most to the public? You will find it here.",
+    "The Department of ACTONA was established to provide a secure, reliable, and accessible source of public information. Led by our editorial team and our senior reporter, Susan Cobewell, we are committed to delivering accurate reporting and keeping the public informed.",
+    "Welcome to the Department of ACTONA. Your new trusted source for news, research, and information."
   ],
   "media": [],
-  "relatedRecords": ["ACT-ARC-001"],
-  "breaking": false,
+"breaking": false,
   "live": false,
   "published": true
 }

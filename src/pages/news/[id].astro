@@ -1,5 +1,6 @@
 ---
 import { url } from "../../lib/url";
+import { bannerSrc } from "../../lib/banner";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import RelatedList from "../../components/RelatedList.astro";
 import MediaCarousel from "../../components/MediaCarousel.astro";
@@ -40,23 +41,21 @@ const { data } = entry;
     </div>
   </div>
 
-  {/* ── Banner: full-width image or video ── */}
-  {data.banner && (
-    <div class="news-banner" style="margin-bottom: 0;">
-      {data.banner.type === "image" ? (
-        <img src={url(data.banner.src)} alt={data.banner.caption ?? data.title} />
-      ) : (
-        <video
-          src={url(data.banner.src)}
-          poster={data.banner.poster ? url(data.banner.poster) : undefined}
-          controls
-        />
-      )}
-      {data.banner.caption && (
-        <div class="news-banner__caption">{data.banner.caption}</div>
-      )}
-    </div>
-  )}
+  {/* ── Banner: full-width image or video (falls back to the default image) ── */}
+  <div class="news-banner" style="margin-bottom: 0;">
+    {data.banner && data.banner.type === "video" ? (
+      <video
+        src={url(data.banner.src)}
+        poster={data.banner.poster ? url(data.banner.poster) : undefined}
+        controls
+      />
+    ) : (
+      <img src={bannerSrc(data.banner)} alt={data.banner?.caption ?? data.title} />
+    )}
+    {data.banner?.caption && (
+      <div class="news-banner__caption">{data.banner.caption}</div>
+    )}
+  </div>
 
   <div class="wrap" style="margin-top: 1.75rem;">
     {data.body.map((paragraph) => <p>{paragraph}</p>)}

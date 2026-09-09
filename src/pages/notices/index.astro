@@ -1,0 +1,35 @@
+---
+import { url } from "../../lib/url";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+import { formatDate } from "../../lib/format";
+
+const notices = (await getCollection("notices", ({ data }) => data.published))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+<BaseLayout title="Public Notices" current="notices">
+  <div class="wrap">
+    <div class="breadcrumb">
+      <a href={url("/")}>Home</a><span class="breadcrumb__sep">/</span>Notices
+    </div>
+    <h1>Public Notices</h1>
+    <p>
+      Notices issued by the Department for the information of the public. Earlier
+      notices remain available for reference.
+    </p>
+
+    {notices.length > 0 ? (
+      notices.map((notice) => (
+        <article class="notice">
+          <div class="notice__id mono">{notice.data.id} &middot; {formatDate(notice.data.date)} &middot; {notice.data.severity}</div>
+          <h2 class="notice__title">{notice.data.title}</h2>
+          {notice.data.body.map((paragraph) => (
+            <p style="margin: 0.5rem 0;">{paragraph}</p>
+          ))}
+        </article>
+      ))
+    ) : (
+      <p class="empty-state">No notices are currently in effect.</p>
+    )}
+  </div>
+</BaseLayout>

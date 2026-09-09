@@ -1,5 +1,6 @@
 ---
 import { url } from "../lib/url";
+import { bannerSrc, thumbSrc } from "../lib/banner";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import StatusBadge from "../components/StatusBadge.astro";
 import { getCollection } from "astro:content";
@@ -21,7 +22,6 @@ const allArchive = (await getCollection("archive", ({ data }) => data.published)
 const archive = allArchive.slice(0, 3);
 
 const heroBanner = heroNews?.data.banner;
-const heroImg = heroBanner?.type === "image" ? heroBanner.src : undefined;
 
 const settings = await getCollection("settings", ({ data }) => data.key === "home");
 const homeSettings = settings[0]?.data;
@@ -39,41 +39,22 @@ const slogan = homeSettings?.slogan;
   {/* ── FULL-WIDTH HERO: lead news ── */}
   {heroNews && (
     <section class="hero-wide">
-      {heroImg ? (
-        <a class="hero-wide__media" href={url(`/news/${heroNews.id}/`)}>
-          <img src={url(heroImg)} alt={heroBanner?.caption ?? heroNews.data.title} />
-          <span class="hero-wide__overlay">
-            {(heroNews.data.breaking || heroNews.data.live) && (
-              <span class="tag-group tag-group--light">
-                {heroNews.data.breaking && <span class="breaking-tag">Breaking</span>}
-                {heroNews.data.live && (
-                  <span class="live-tag"><span class="live-tag__dot" aria-hidden="true"></span>Live</span>
-                )}
-              </span>
-            )}
-            <span class="hero-wide__kicker">{heroNews.data.id} &middot; {formatDate(heroNews.data.date)}</span>
-            <span class="hero-wide__title">{heroNews.data.title}</span>
-            <span class="hero-wide__summary">{heroNews.data.summary}</span>
-          </span>
-        </a>
-      ) : (
-        <div class="wrap wrap--wide">
-          <div class="hero-wide--plain">
-            {(heroNews.data.breaking || heroNews.data.live) && (
-              <span class="tag-group tag-group--light">
-                {heroNews.data.breaking && <span class="breaking-tag">Breaking</span>}
-                {heroNews.data.live && (
-                  <span class="live-tag"><span class="live-tag__dot" aria-hidden="true"></span>Live</span>
-                )}
-              </span>
-            )}
-            <div class="hero-wide__kicker">{heroNews.data.id} &middot; {formatDate(heroNews.data.date)}</div>
-            <a class="hero-wide__title" href={url(`/news/${heroNews.id}/`)}>{heroNews.data.title}</a>
-            <p class="hero-wide__summary">{heroNews.data.summary}</p>
-            <a class="hero-wide__read" href={url(`/news/${heroNews.id}/`)}>Read full article &rarr;</a>
-          </div>
-        </div>
-      )}
+      <a class="hero-wide__media" href={url(`/news/${heroNews.id}/`)}>
+        <img src={bannerSrc(heroBanner)} alt={heroBanner?.caption ?? heroNews.data.title} />
+        <span class="hero-wide__overlay">
+          {(heroNews.data.breaking || heroNews.data.live) && (
+            <span class="tag-group tag-group--light">
+              {heroNews.data.breaking && <span class="breaking-tag">Breaking</span>}
+              {heroNews.data.live && (
+                <span class="live-tag"><span class="live-tag__dot" aria-hidden="true"></span>Live</span>
+              )}
+            </span>
+          )}
+          <span class="hero-wide__kicker">{heroNews.data.id} &middot; {formatDate(heroNews.data.date)}</span>
+          <span class="hero-wide__title">{heroNews.data.title}</span>
+          <span class="hero-wide__summary">{heroNews.data.summary}</span>
+        </span>
+      </a>
     </section>
   )}
 
@@ -84,16 +65,10 @@ const slogan = homeSettings?.slogan;
       <div class="mag-col">
         <div class="mag-head"><h2>Latest News</h2></div>
         {latestNews.length > 0 ? (
-          latestNews.map((item) => {
-            const thumb = item.data.banner?.type === "image" ? item.data.banner.src : undefined;
-            return (
-              <a class="thumb-row" href={url(`/news/${item.id}/`)}>
-                {thumb ? (
-                  <img class="thumb-row__img" src={url(thumb)} alt="" loading="lazy" />
-                ) : (
-                  <span class="thumb-row__img thumb-row__img--ph" aria-hidden="true" />
-                )}
-                <span class="thumb-row__body">
+          latestNews.map((item) => (
+            <a class="thumb-row" href={url(`/news/${item.id}/`)}>
+              <img class="thumb-row__img" src={thumbSrc(item.data.banner)} alt="" loading="lazy" />
+              <span class="thumb-row__body">
                   {(item.data.breaking || item.data.live) && (
                     <span class="tag-group">
                       {item.data.breaking && <span class="breaking-tag">Breaking</span>}
@@ -106,8 +81,7 @@ const slogan = homeSettings?.slogan;
                   <span class="thumb-row__date mono">{formatDate(item.data.date)}</span>
                 </span>
               </a>
-            );
-          })
+          ))
         ) : (
           <p class="text-muted" style="font-size:0.85rem;">No further articles are currently available.</p>
         )}
@@ -117,35 +91,22 @@ const slogan = homeSettings?.slogan;
       <div class="mag-col mag-col--hero">
         {secondNews ? (
           <article class="mag-hero">
-            {(() => {
-              const b = secondNews.data.banner;
-              const img = b?.type === "image" ? b.src : undefined;
-              return img ? (
-                <a class="mag-hero__media" href={url(`/news/${secondNews.id}/`)}>
-                  {(secondNews.data.breaking || secondNews.data.live) && (
-                    <span class="tag-group tag-group--top">
-                      {secondNews.data.breaking && <span class="breaking-tag">Breaking</span>}
-                      {secondNews.data.live && (
-                        <span class="live-tag"><span class="live-tag__dot" aria-hidden="true"></span>Live</span>
-                      )}
-                    </span>
+            <a class="mag-hero__media" href={url(`/news/${secondNews.id}/`)}>
+              {(secondNews.data.breaking || secondNews.data.live) && (
+                <span class="tag-group tag-group--top">
+                  {secondNews.data.breaking && <span class="breaking-tag">Breaking</span>}
+                  {secondNews.data.live && (
+                    <span class="live-tag"><span class="live-tag__dot" aria-hidden="true"></span>Live</span>
                   )}
-                  <img src={url(img)} alt={b?.caption ?? secondNews.data.title} />
-                  <span class="mag-hero__overlay">
-                    <span class="mag-hero__kicker">{secondNews.data.id} &middot; {formatDate(secondNews.data.date)}</span>
-                    <span class="mag-hero__title">{secondNews.data.title}</span>
-                    <span class="mag-hero__summary">{secondNews.data.summary}</span>
-                  </span>
-                </a>
-              ) : (
-                <div class="mag-hero--plain">
-                  <div class="mag-hero__kicker">{secondNews.data.id} &middot; {formatDate(secondNews.data.date)}</div>
-                  <a class="mag-hero__title" href={url(`/news/${secondNews.id}/`)}>{secondNews.data.title}</a>
-                  <p class="mag-hero__summary">{secondNews.data.summary}</p>
-                  <a class="mag-hero__read" href={url(`/news/${secondNews.id}/`)}>Read full article &rarr;</a>
-                </div>
-              );
-            })()}
+                </span>
+              )}
+              <img src={bannerSrc(secondNews.data.banner)} alt={secondNews.data.title} />
+              <span class="mag-hero__overlay">
+                <span class="mag-hero__kicker">{secondNews.data.id} &middot; {formatDate(secondNews.data.date)}</span>
+                <span class="mag-hero__title">{secondNews.data.title}</span>
+                <span class="mag-hero__summary">{secondNews.data.summary}</span>
+              </span>
+            </a>
           </article>
         ) : (
           <div class="mag-hero">
@@ -157,16 +118,19 @@ const slogan = homeSettings?.slogan;
       </div>
 
       <div class="mag-col" id="notices">
-        <div class="mag-head"><h2>Public Notices</h2></div>
+        <div class="mag-head">
+          <h2>Public Notices</h2>
+          <a class="section__more" href={url("/notices/")}>All notices &rarr;</a>
+        </div>
         {notices.length > 0 ? (
           notices.map((notice) => (
-            <div class="mag-row">
+            <a class="mag-row" href={url("/notices/")}>
               <span class="mag-row__id mono">{notice.data.id} &middot; {formatDate(notice.data.date)}</span>
               <span class="mag-row__title">{notice.data.title}</span>
               {notice.data.body[0] && (
                 <span class="mag-row__meta">{notice.data.body[0].slice(0, 110)}{notice.data.body[0].length > 110 ? "…" : ""}</span>
               )}
-            </div>
+            </a>
           ))
         ) : (
           <p class="text-muted" style="font-size:0.85rem;">No notices are currently in effect.</p>

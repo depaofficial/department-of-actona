@@ -662,6 +662,27 @@ a.live-bar__text:hover {
 }
 .mag-row .badge { margin-top: 0.4rem; }
 
+/* -------------------------------------------------------------- notices page */
+
+.notice {
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1.25rem;
+  background: var(--color-surface);
+  border: 1px solid var(--color-gray-line);
+  border-left: 4px solid var(--brand-700);
+  border-radius: var(--radius);
+}
+.notice__id {
+  font-size: 0.72rem;
+  color: var(--color-muted);
+  letter-spacing: 0.04em;
+  margin-bottom: 0.4rem;
+}
+.notice__title {
+  font-size: 1.15rem;
+  margin: 0 0 0.4rem;
+}
+
 /* -------------------------------------------------------------- compact thumb rows */
 
 .thumb-row {
@@ -725,7 +746,7 @@ a.live-bar__text:hover {
   position: absolute;
   inset: auto 0 0 0;
   padding: 1.5rem 1.75rem;
-  background: rgba(11, 42, 74, 0.82);
+  background: rgba(11, 42, 74, 0.85);
   display: block;
 }
 .mag-hero__kicker {
