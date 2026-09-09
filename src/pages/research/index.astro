@@ -1,0 +1,53 @@
+---
+import { url } from "../../lib/url";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import StatusBadge from "../../components/StatusBadge.astro";
+import { getCollection } from "astro:content";
+
+const research = await getCollection("research", ({ data }) => data.published);
+
+const categories = [
+  "ARCHAEOLOGY",
+  "HISTORICAL SOCIETIES",
+  "RELIGIOUS SYMBOLS",
+  "ARCHIVAL ANALYSIS",
+  "ANTHROPOLOGY",
+  "UNIDENTIFIED MATERIALS",
+] as const;
+
+function titleCase(s: string) {
+  return s
+    .toLowerCase()
+    .split(" ")
+    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+    .join(" ");
+}
+---
+<BaseLayout title="Research" current="research">
+  <div class="wrap wrap--wide">
+    <div class="breadcrumb"><a href={url("/")}>Home</a><span class="breadcrumb__sep">/</span>Research</div>
+    <h1>Research</h1>
+    <p class="text-muted">Ongoing and completed research subjects maintained by the Department.</p>
+
+    {categories.map((cat) => {
+      const items = research.filter((r) => r.data.category === cat);
+      if (items.length === 0) return null;
+      return (
+        <div class="section" style="padding: 1.5rem 0;">
+          <div class="section__head">
+            <h2>{titleCase(cat)}</h2>
+          </div>
+          <div class="card-grid">
+            {items.map((item) => (
+              <a class="card" href={url(`/research/${item.id}/`)}>
+                <span class="card__title">{item.data.title}</span>
+                <p class="card__summary">{item.data.summary}</p>
+                <StatusBadge status={item.data.status} />
+              </a>
+            ))}
+          </div>
+        </div>
+      );
+    })}
+  </div>
+</BaseLayout>

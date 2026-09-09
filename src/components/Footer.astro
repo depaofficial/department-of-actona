@@ -1,0 +1,38 @@
+---
+import Emblem from "./Emblem.astro";
+import { url } from "../lib/url";
+const year = new Date().getFullYear();
+---
+<footer class="site-footer">
+  <div class="site-footer__grid">
+    <div>
+      <div class="site-footer__brand">
+        <Emblem />
+        <span>Department of ACTONA</span>
+      </div>
+      <p>The Department is responsible for the collection, preservation and analysis of historical records and materials of public interest.</p>
+    </div>
+    <div>
+      <h3>Information</h3>
+      <p>
+        <a href={url("/about/")}>About ACTONA</a><br />
+        <a href={url("/contact/")}>Contact the Department</a><br />
+        <a href={url("/archive/")}>Public Archive</a>
+      </p>
+    </div>
+    <div>
+      <h3>Access &amp; Security</h3>
+      <p>Some materials are subject to review and may be marked restricted or withheld pending verification. See individual records for status.</p>
+    </div>
+  </div>
+  <div class="site-footer__base">
+    <span class="site-footer__social">
+      <span>Follow the Department:</span>
+      <a href="https://www.youtube.com/@aactonaa" rel="noopener" target="_blank">YouTube</a>
+      <a href="https://www.instagram.com/aactonaa/" rel="noopener" target="_blank">Instagram</a>
+      <a href="https://www.tiktok.com/@aactonaa" rel="noopener" target="_blank">TikTok</a>
+    </span>
+    <span>&copy; {year} Department of ACTONA. Official information portal.</span>
+    <span>Secure transmission enabled &middot; Records provided for public reference.</span>
+  </div>
+</footer>

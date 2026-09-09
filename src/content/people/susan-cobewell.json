@@ -1,0 +1,13 @@
+{
+  "slug": "susan-cobewell",
+  "name": "Susan Cobewell",
+  "position": "Research Reporter",
+  "department": "Department of ACTONA",
+  "biography": [
+    "Susan Cobewell joined the Department of ACTONA as a Research Reporter, with responsibility for field documentation and public communication of ongoing archival work.",
+    "Her reporting covers site recoveries, cataloguing updates and departmental announcements, and she regularly liaises with field recovery units on active operations."
+  ],
+  "reports": ["ACT-FLD-001"],
+  "associatedResearch": ["historical-materials"],
+  "published": true
+}

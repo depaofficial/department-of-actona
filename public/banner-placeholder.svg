@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 480" width="1200" height="480">
+  <rect width="1200" height="480" fill="#0f2540"/>
+  <rect x="0" y="200" width="1200" height="1" fill="rgba(255,255,255,0.06)"/>
+  <!-- subtle grid -->
+  <line x1="0" y1="120" x2="1200" y2="120" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+  <line x1="0" y1="240" x2="1200" y2="240" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+  <line x1="0" y1="360" x2="1200" y2="360" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+  <line x1="300" y1="0" x2="300" y2="480" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+  <line x1="600" y1="0" x2="600" y2="480" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+  <line x1="900" y1="0" x2="900" y2="480" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+  <!-- emblem mark -->
+  <rect x="560" y="180" width="80" height="80" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1.5"/>
+  <line x1="600" y1="190" x2="600" y2="250" stroke="rgba(255,255,255,0.15)" stroke-width="1.5"/>
+  <line x1="570" y1="220" x2="630" y2="220" stroke="rgba(255,255,255,0.15)" stroke-width="1.5"/>
+  <circle cx="600" cy="220" r="6" fill="rgba(255,255,255,0.18)"/>
+  <!-- label -->
+  <text x="600" y="295" text-anchor="middle" font-family="monospace" font-size="11" fill="rgba(255,255,255,0.2)" letter-spacing="4">DEPARTMENT OF ACTONA</text>
+</svg>

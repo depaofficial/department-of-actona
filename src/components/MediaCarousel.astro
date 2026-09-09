@@ -1,0 +1,84 @@
+---
+import { url } from "../lib/url";
+
+interface Props {
+  items: Array<{
+    type: "image" | "video";
+    src: string;
+    caption?: string;
+    poster?: string;
+  }>;
+  label?: string;
+}
+
+const { items, label = "Media" } = Astro.props;
+const total = items.length;
+---
+
+{total > 0 && (
+  <figure class="media-carousel" data-media-carousel data-count={total}>
+    <div class="media-carousel__viewport">
+      <div class="media-carousel__track">
+        {items.map((item, i) => (
+          <div class="media-carousel__slide" data-slide={i}>
+            {item.type === "image" ? (
+              <img src={url(item.src)} alt={item.caption ?? label} loading={i === 0 ? "eager" : "lazy"} />
+            ) : (
+              <video
+                src={url(item.src)}
+                poster={item.poster ? url(item.poster) : undefined}
+                preload="metadata"
+                controls>
+              </video>
+            )}
+            {item.caption && (
+              <figcaption class="media-carousel__caption">{item.caption}</figcaption>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <div class="media-carousel__bar">
+      <button class="media-carousel__btn" data-media-prev type="button" aria-label="Previous media" disabled>←</button>
+      <span class="media-carousel__counter mono" data-media-counter>1 / {total}</span>
+      <button class="media-carousel__btn" data-media-next type="button" aria-label="Next media">→</button>
+    </div>
+  </figure>
+)}
+
+<script>
+  const carousels = Array.from(document.querySelectorAll<HTMLElement>("[data-media-carousel]"));
+  for (const carousel of carousels) {
+    const track = carousel.querySelector<HTMLElement>(".media-carousel__track")!;
+    const slides = Array.from(carousel.querySelectorAll<HTMLElement>("[data-slide]"));
+    const prevBtn = carousel.querySelector<HTMLButtonElement>("[data-media-prev]");
+    const nextBtn = carousel.querySelector<HTMLButtonElement>("[data-media-next]");
+    const counter = carousel.querySelector<HTMLElement>("[data-media-counter]");
+    const count = Number(carousel.dataset.count ?? slides.length);
+    let index = 0;
+
+    function update() {
+      track.style.transform = `translateX(-${index * 100}%)`;
+      if (counter) counter.textContent = `${index + 1} / ${count}`;
+      if (prevBtn) prevBtn.disabled = index <= 0;
+      if (nextBtn) nextBtn.disabled = index >= count - 1;
+    }
+
+    prevBtn?.addEventListener("click", () => {
+      if (index > 0) index--;
+      update();
+    });
+    nextBtn?.addEventListener("click", () => {
+      if (index < count - 1) index++;
+      update();
+    });
+
+    carousel.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowLeft" && index > 0) { index--; update(); }
+      if (e.key === "ArrowRight" && index < count - 1) { index++; update(); }
+    });
+
+    update();
+  }
+</script>

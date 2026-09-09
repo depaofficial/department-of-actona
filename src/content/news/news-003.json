@@ -1,0 +1,35 @@
+{
+  "id": "NEWS",
+  "title": "First Document Findings in Dresden, Germany",
+  "date": "2026-09-18",
+  "department": "Department of ACTONA",
+  "summary": "The Department has completed the initial cataloguing of material recovered at Excavation Site 4. Further technical assessment is ongoing.",
+  "banner": {
+    "type": "image",
+    "src": "/banner-placeholder.jpg",
+    "caption": "Archival material from the excavation is catalogued at the Department's facilities. Image: Department of ACTONA."
+  },
+  "body": [
+    "The Department has completed the initial cataloguing of all material recovered during the excavation at Site 4.",
+    "Recovered items have been registered under the departmental archival classification system and transferred to the holding facility for further assessment.",
+    "A review of the recovered material is currently in progress. The Department will publish further findings once verification is complete.",
+    "Members of the public with relevant information are invited to contact the Department."
+  ],
+  "media": [
+    {
+      "type": "image",
+      "src": "/banner-placeholder.jpg",
+      "caption": "Recovered materials being registered at the Department's holding facility."
+    },
+    {
+      "type": "video",
+      "src": "/videoplayback.mp4",
+      "poster": "/banner-placeholder.jpg",
+      "caption": "Archival survey footage. Image: Department of ACTONA."
+    }
+  ],
+  "relatedRecords": ["ACT-ARC-001"],
+  "breaking": false,
+  "live": false,
+  "published": true
+}

@@ -1,0 +1,13 @@
+{
+  "slug": "historical-materials",
+  "title": "Historical Materials",
+  "category": "ARCHAEOLOGY",
+  "status": "ONGOING",
+  "summary": "Ongoing cataloguing and analysis of materials recovered from active excavation sites, including the object catalogued as ACT-ARC-001.",
+  "body": [
+    "This research subject covers the cataloguing, dating and material analysis of items recovered from active excavation sites under Departmental oversight.",
+    "Current work is focused on the object catalogued under ACT-ARC-001, recovered at Excavation Site 4. Findings are published as they are confirmed."
+  ],
+  "relatedRecords": ["ACT-ARC-001"],
+  "published": true
+}

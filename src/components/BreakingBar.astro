@@ -1,0 +1,26 @@
+---
+import { url } from "../lib/url";
+
+interface Props {
+  enabled: boolean;
+  label: string;
+  text?: string;
+  href?: string;
+}
+
+const { enabled, label, text, href } = Astro.props;
+---
+
+{enabled && text && (
+  <div class="breaking-bar" role="status" aria-live="polite">
+    <span class="breaking-bar__label"><span class="breaking-dot" aria-hidden="true"></span>{label}</span>
+    {href ? (
+      <a class="breaking-bar__text" href={url(href)}>
+        {text}
+        <span class="breaking-bar__more">&rarr;</span>
+      </a>
+    ) : (
+      <span class="breaking-bar__text">{text}</span>
+    )}
+  </div>
+)}

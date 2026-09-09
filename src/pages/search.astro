@@ -1,0 +1,86 @@
+---
+import { url } from "../lib/url";
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+<BaseLayout title="Search" current="">
+  <div class="wrap wrap--wide">
+    <div class="breadcrumb"><a href={url("/")}>Home</a><span class="breadcrumb__sep">/</span>Search</div>
+    <h1>Search</h1>
+    <p class="text-muted">Search across news, archive records, research and people.</p>
+
+    <form class="search-form" id="site-search" role="search">
+      <input type="search" name="q" id="search-input" placeholder="Search archive IDs, names, dates, keywords" aria-label="Search" autofocus />
+    </form>
+
+    <ul class="result-list" id="search-results"></ul>
+    <p class="empty-state" id="search-empty" hidden>No records match your search.</p>
+    <p class="text-muted" id="search-hint">Enter a search term above to begin.</p>
+  </div>
+</BaseLayout>
+
+<script>
+  import { url } from "../lib/url";
+
+  type SearchItem = {
+    kind: string;
+    id: string;
+    title: string;
+    summary: string;
+    href: string;
+  };
+
+  const input = document.getElementById("search-input") as HTMLInputElement | null;
+  const list = document.getElementById("search-results");
+  const empty = document.getElementById("search-empty");
+  const hint = document.getElementById("search-hint");
+  const form = document.getElementById("site-search") as HTMLFormElement | null;
+
+  let items: SearchItem[] = [];
+
+  async function loadIndex() {
+    const res = await fetch(url("/search-index.json"));
+    items = await res.json();
+
+    const params = new URLSearchParams(window.location.search);
+    const initial = params.get("q");
+    if (initial && input) {
+      input.value = initial;
+      runSearch(initial);
+    }
+  }
+
+  function runSearch(rawQuery: string) {
+    const q = rawQuery.trim().toLowerCase();
+    if (!list || !empty || !hint) return;
+
+    if (q === "") {
+      list.innerHTML = "";
+      empty.hidden = true;
+      hint.hidden = false;
+      return;
+    }
+    hint.hidden = true;
+
+    const terms = q.split(/\s+/).filter(Boolean);
+    const results = items.filter((item) => {
+      const haystack = `${item.id} ${item.title} ${item.summary}`.toLowerCase();
+      return terms.every((t) => haystack.includes(t));
+    });
+
+    list.innerHTML = "";
+    for (const r of results) {
+      const li = document.createElement("li");
+      li.innerHTML = `
+        <div class="result-kind mono">${r.kind} &middot; ${r.id}</div>
+        <h2 style="margin: 0.2rem 0 0.3rem; font-size: 1.05rem;"><a href="${r.href}">${r.title}</a></h2>
+        <p style="margin:0;">${r.summary}</p>
+      `;
+      list.appendChild(li);
+    }
+    empty.hidden = results.length !== 0;
+  }
+
+  input?.addEventListener("input", () => runSearch(input.value));
+  form?.addEventListener("submit", (e) => e.preventDefault());
+  loadIndex();
+</script>

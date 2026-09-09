@@ -1,0 +1,27 @@
+---
+import { url } from "../lib/url";
+
+interface Props {
+  current?: string;
+}
+const { current = "" } = Astro.props;
+
+const items = [
+  { href: url("/"), label: "Home", key: "home" },
+  { href: url("/news/"), label: "News", key: "news" },
+  { href: url("/archive/"), label: "Archive", key: "archive" },
+  { href: url("/about/"), label: "About", key: "about" },
+  { href: url("/contact/"), label: "Contact", key: "contact" },
+];
+---
+<nav class="site-nav" aria-label="Primary">
+  <ul class="site-nav__list">
+    {items.map((item) => (
+      <li>
+        <a href={item.href} aria-current={current === item.key ? "page" : undefined}>
+          {item.label}
+        </a>
+      </li>
+    ))}
+  </ul>
+</nav>

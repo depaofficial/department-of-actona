@@ -1,0 +1,93 @@
+---
+import { url } from "../../lib/url";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import StatusBadge from "../../components/StatusBadge.astro";
+import { getCollection } from "astro:content";
+
+const archive = (await getCollection("archive", ({ data }) => data.published)).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
+
+const categories = Array.from(new Set(archive.map((a) => a.data.category))).sort();
+---
+<BaseLayout title="Archive" current="archive">
+  <div class="wrap wrap--wide">
+    <div class="breadcrumb"><a href={url("/")}>Home</a><span class="breadcrumb__sep">/</span>Archive</div>
+    <h1>Public Archive</h1>
+    <p class="text-muted">Search and browse records held by the Department of ACTONA.</p>
+
+    <div class="search-form">
+      <input
+        type="search"
+        id="archive-q"
+        placeholder="Search archive ID, title or keyword"
+        aria-label="Search archive"
+        autocomplete="off"
+      />
+      <select id="archive-cat" aria-label="Filter by category">
+        <option value="">All categories</option>
+        {categories.map((c) => <option value={c}>{c}</option>)}
+      </select>
+    </div>
+
+    <div id="archive-grid">
+      {archive.map((item) => (
+        <a
+          class="card"
+          href={url(`/archive/${item.id}/`)}
+          data-title={item.data.title.toLowerCase()}
+          data-id={item.data.archiveId.toLowerCase()}
+          data-desc={item.data.description.toLowerCase()}
+          data-category={item.data.category}
+          style="display: flex; margin-bottom: 0.75rem;"
+        >
+          <div style="flex:1; display:flex; flex-direction:column; gap:0.4rem;">
+            <span class="card__id mono">{item.data.archiveId}</span>
+            <span class="card__title">{item.data.title}</span>
+            <span class="card__meta">{item.data.category}</span>
+            <StatusBadge status={item.data.status} />
+          </div>
+        </a>
+      ))}
+    </div>
+    <p id="archive-empty" style="display:none;" class="empty-state">No records match your search.</p>
+  </div>
+</BaseLayout>
+
+<script>
+  // Run after DOM is fully ready
+  document.addEventListener("DOMContentLoaded", () => {
+    const input = document.getElementById("archive-q") as HTMLInputElement | null;
+    const select = document.getElementById("archive-cat") as HTMLSelectElement | null;
+    const grid = document.getElementById("archive-grid");
+    const empty = document.getElementById("archive-empty");
+
+    if (!input || !select || !grid || !empty) return;
+
+    const cards = Array.from(grid.querySelectorAll<HTMLAnchorElement>("a[data-title]"));
+
+    function applyFilter() {
+      const q = input!.value.trim().toLowerCase();
+      const cat = select!.value;
+      let visible = 0;
+
+      for (const card of cards) {
+        const matchesText =
+          q === "" ||
+          (card.dataset.title ?? "").includes(q) ||
+          (card.dataset.id ?? "").includes(q) ||
+          (card.dataset.desc ?? "").includes(q);
+        const matchesCat = cat === "" || card.dataset.category === cat;
+        const show = matchesText && matchesCat;
+
+        (card as HTMLElement).style.display = show ? "flex" : "none";
+        if (show) visible++;
+      }
+
+      empty.style.display = visible === 0 ? "block" : "none";
+    }
+
+    input.addEventListener("input", applyFilter);
+    select.addEventListener("change", applyFilter);
+  });
+</script>

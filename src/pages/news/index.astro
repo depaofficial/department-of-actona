@@ -1,0 +1,66 @@
+---
+import { url } from "../../lib/url";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+import { formatDate } from "../../lib/format";
+
+const news = (await getCollection("news", ({ data }) => data.published)).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
+---
+<BaseLayout title="News" current="news">
+  <div class="wrap wrap--wide">
+    <div class="breadcrumb"><a href={url("/")}>Home</a><span class="breadcrumb__sep">/</span>News</div>
+    <h1>News</h1>
+    <p class="text-muted">Official news and updates published by the Department of ACTONA.</p>
+
+    <form class="search-form" id="news-filter" role="search">
+      <input type="search" name="q" placeholder="Filter by title or keyword" aria-label="Filter news" />
+    </form>
+
+    <ul class="result-list" id="news-list">
+      {news.map((item) => (
+        <li data-title={item.data.title.toLowerCase()} data-summary={item.data.summary.toLowerCase()}>
+          <div class="result-kind mono">{item.data.id} &middot; {formatDate(item.data.date)}</div>
+          {(item.data.breaking || item.data.live) && (
+            <span class="tag-group news-list-tags">
+              {item.data.breaking && <span class="breaking-tag">Breaking</span>}
+              {item.data.live && (
+                <span class="live-tag"><span class="live-tag__dot" aria-hidden="true"></span>Live</span>
+              )}
+            </span>
+          )}
+          <h2 style="margin: 0.2rem 0 0.3rem; font-size: 1.05rem;">
+            <a href={url(`/news/${item.id}/`)}>{item.data.title}</a>
+          </h2>
+          <p style="margin: 0;">{item.data.summary}</p>
+        </li>
+      ))}
+    </ul>
+    <p class="empty-state" id="news-empty" hidden>No news items match your filter.</p>
+  </div>
+</BaseLayout>
+
+<script>
+  const form = document.getElementById("news-filter") as HTMLFormElement | null;
+  const input = form?.querySelector<HTMLInputElement>('input[name="q"]');
+  const items = Array.from(document.querySelectorAll<HTMLLIElement>("#news-list > li"));
+  const empty = document.getElementById("news-empty");
+
+  function applyFilter() {
+    const q = (input?.value ?? "").trim().toLowerCase();
+    let visible = 0;
+    for (const item of items) {
+      const matches =
+        q === "" ||
+        (item.dataset.title ?? "").includes(q) ||
+        (item.dataset.summary ?? "").includes(q);
+      item.hidden = !matches;
+      if (matches) visible++;
+    }
+    if (empty) empty.hidden = visible !== 0;
+  }
+
+  input?.addEventListener("input", applyFilter);
+  form?.addEventListener("submit", (e) => e.preventDefault());
+</script>

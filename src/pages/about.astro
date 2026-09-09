@@ -1,0 +1,38 @@
+---
+import { url } from "../lib/url";
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+<BaseLayout title="About ACTONA" current="about">
+  <div class="wrap">
+    <div class="breadcrumb"><a href={url("/")}>Home</a><span class="breadcrumb__sep">/</span>About ACTONA</div>
+    <h1>About ACTONA</h1>
+
+    <p>
+      The Department of ACTONA is responsible for the collection, preservation and
+      analysis of historical records and materials of public interest. The Department
+      maintains a public archive, coordinates field recovery work, and publishes
+      research and archival materials as review permits.
+    </p>
+
+    <h2>Responsibilities</h2>
+    <p>
+      The Department's remit covers the cataloguing of recovered materials, the
+      preservation of historical documents and photographs, and the coordination of
+      research across affiliated fields including archaeology, archival analysis and
+      anthropology.
+    </p>
+
+    <h2>Public Access</h2>
+    <p>
+      Most departmental records are published for public reference. Some materials
+      remain under review and may be marked as restricted or withheld pending
+      verification; their status is shown on the relevant record.
+    </p>
+
+    <h2>Structure</h2>
+    <p>
+      The Department operates through field recovery units, research staff and a
+      central archive office responsible for cataloguing and public communication.
+    </p>
+  </div>
+</BaseLayout>

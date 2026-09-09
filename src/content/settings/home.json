@@ -1,0 +1,13 @@
+{
+  "key": "home",
+  "slogan": "Preserving the past. Serving the public.",
+  "breakingEnabled": false,
+  "breakingLabel": "Breaking",
+  "breakingUrl": "/news/news-002/",
+  "breakingText": "Assessment of the historical disc continues. Initial cataloguing has been completed.",
+  "liveEnabled": false,
+  "liveLabel": "Live",
+  "liveUrl": "/news/news-001/",
+  "liveText": "Ongoing coverage of the excavation at Site 4 is being provided."
+}
+

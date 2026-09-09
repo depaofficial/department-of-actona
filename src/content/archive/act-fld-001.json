@@ -1,0 +1,49 @@
+{
+  "archiveId": "ACT-FLD-001",
+  "title": "Field Report 001 — S. Cobewell",
+  "date": "2026-09-21",
+  "location": "Excavation Site 4",
+  "category": "FIELD REPORT",
+  "status": "PUBLIC",
+  "description": "Field notes prepared by Research Reporter Susan Cobewell following the recovery of ACT-ARC-001. The report summarises site conditions and initial observations for the departmental record.",
+  "media": [],
+  "attachments": [
+    {
+      "filename": "Field Notes — Site 4.pdf",
+      "src": "#",
+      "type": "pdf",
+      "size": "—",
+      "description": "Pending digitisation."
+    },
+    {
+      "filename": "Site conditions, photograph 001.jpg",
+      "src": "#",
+      "type": "jpg",
+      "size": "—",
+      "description": "Pending publication."
+    },
+    {
+      "filename": "Site conditions, photograph 002.jpg",
+      "src": "#",
+      "type": "jpg",
+      "size": "—",
+      "description": "Pending publication."
+    }
+  ],
+  "documents": [
+    {
+      "id": "ACT-DOC-002",
+      "title": "Field Notes — Site 4",
+      "classification": "PUBLIC",
+      "version": 1,
+      "versionLabel": "Published",
+      "pages": [
+        { "status": "AVAILABLE", "caption": "Observation log, page 1." },
+        { "status": "AVAILABLE", "caption": "Observation log, page 2." }
+      ]
+    }
+  ],
+  "relatedRecords": ["ACT-ARC-001"],
+  "source": "Susan Cobewell",
+  "published": true
+}

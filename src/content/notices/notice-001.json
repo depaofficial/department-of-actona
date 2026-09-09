@@ -1,0 +1,11 @@
+{
+  "id": "NOTICE-001",
+  "title": "Archive Access During Cataloguing",
+  "date": "2026-09-22",
+  "body": [
+    "Certain archival materials associated with ongoing cataloguing work may be temporarily unavailable while records are reviewed and indexed.",
+    "Affected records will display their current status on the relevant archive page. Access will be restored as review is completed."
+  ],
+  "severity": "ADVISORY",
+  "published": true
+}

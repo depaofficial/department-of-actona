@@ -1,0 +1,70 @@
+---
+import { url } from "../../lib/url";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import StatusBadge from "../../components/StatusBadge.astro";
+import MetadataTable from "../../components/MetadataTable.astro";
+import Attachments from "../../components/Attachments.astro";
+import MediaCarousel from "../../components/MediaCarousel.astro";
+import RelatedList from "../../components/RelatedList.astro";
+import { getCollection } from "astro:content";
+import { formatDate } from "../../lib/format";
+
+export async function getStaticPaths() {
+  const archive = await getCollection("archive", ({ data }) => data.published);
+  return archive.map((entry) => ({
+    params: { id: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { data } = entry;
+
+const metaRows = [
+  { label: "Archive ID", value: data.archiveId },
+  { label: "Date", value: formatDate(data.date) },
+  ...(data.location ? [{ label: "Location", value: data.location }] : []),
+  { label: "Category", value: data.category },
+  { label: "Status", value: data.status },
+  ...(data.source ? [{ label: "Source", value: data.source }] : []),
+  ...(data.lastRevised ? [{ label: "Last Revised", value: formatDate(data.lastRevised) }] : []),
+];
+---
+<BaseLayout title={data.title} current="archive">
+  <div class="wrap">
+    <div class="breadcrumb">
+      <a href={url("/")}>Home</a><span class="breadcrumb__sep">/</span>
+      <a href={url("/archive/")}>Archive</a><span class="breadcrumb__sep">/</span>
+      {data.archiveId}
+    </div>
+
+    <div class="record-head">
+      <div class="record-head__id mono">{data.archiveId}</div>
+      <h1 class="record-head__title">{data.title}</h1>
+      <div class="record-head__badges">
+        <StatusBadge status={data.status} />
+        <span class="badge">{data.category}</span>
+      </div>
+    </div>
+
+    <p>{data.description}</p>
+
+    {data.media.length > 0 && (
+      <MediaCarousel items={data.media} label={data.title} />
+    )}
+
+    <h2 style="margin-top: 1.75rem;">Record Metadata</h2>
+    <MetadataTable rows={metaRows} />
+
+    {/* ── Downloadable attachments ── */}
+    {data.attachments.length > 0 && (
+      <div style="margin-top: 1.75rem;">
+        <Attachments attachments={data.attachments} />
+      </div>
+    )}
+
+    <div style="margin-top: 1.75rem;">
+      <RelatedList ids={data.relatedRecords} />
+    </div>
+  </div>
+</BaseLayout>

@@ -1,0 +1,40 @@
+---
+import { url } from "../../lib/url";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import RelatedList from "../../components/RelatedList.astro";
+import { getCollection } from "astro:content";
+
+export async function getStaticPaths() {
+  const people = await getCollection("people", ({ data }) => data.published);
+  return people.map((entry) => ({
+    params: { id: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { data } = entry;
+---
+<BaseLayout title={data.name} current="">
+  <div class="wrap">
+    <div class="breadcrumb">
+      <a href={url("/")}>Home</a><span class="breadcrumb__sep">/</span>
+      {data.name}
+    </div>
+
+    <div class="record-head">
+      <div class="record-head__id mono">{data.position}</div>
+      <h1 class="record-head__title">{data.name}</h1>
+      <p class="text-muted" style="margin: 0;">{data.department}</p>
+    </div>
+
+    {data.biography.map((paragraph) => <p>{paragraph}</p>)}
+
+    <div style="margin-top: 1.75rem;">
+      <RelatedList ids={data.reports} label="Published Reports" />
+    </div>
+    <div style="margin-top: 1.25rem;">
+      <RelatedList ids={data.associatedResearch} label="Associated Research" />
+    </div>
+  </div>
+</BaseLayout>

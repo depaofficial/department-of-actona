@@ -1,0 +1,63 @@
+---
+import { url } from "../lib/url";
+
+interface Attachment {
+  filename: string;
+  src: string;
+  type: string;
+  size?: string;
+  description?: string;
+}
+
+interface Props {
+  attachments: Attachment[];
+}
+
+const { attachments } = Astro.props;
+
+function iconLabel(type: string): string {
+  const t = type.toLowerCase();
+  if (t === "pdf") return "PDF";
+  if (t === "mp4" || t === "video") return "MP4";
+  if (t === "mp3" || t === "audio") return "MP3";
+  if (t === "jpg" || t === "jpeg") return "JPG";
+  if (t === "png") return "PNG";
+  if (t === "image") return "IMG";
+  return type.toUpperCase().slice(0, 4);
+}
+
+function iconClass(type: string): string {
+  const t = type.toLowerCase();
+  if (t === "pdf") return "attachments__icon attachments__icon--pdf";
+  if (t === "mp4" || t === "video") return "attachments__icon attachments__icon--mp4";
+  if (t === "mp3" || t === "audio") return "attachments__icon attachments__icon--mp3";
+  if (["jpg","jpeg","png","image"].includes(t)) return "attachments__icon attachments__icon--jpg";
+  return "attachments__icon";
+}
+---
+{attachments.length > 0 && (
+  <div class="attachments">
+    <h2>Attached Files</h2>
+    <ul class="attachments__list">
+      {attachments.map((att) => (
+        <li class="attachments__item">
+          <span class={iconClass(att.type)}>{iconLabel(att.type)}</span>
+          <span class="attachments__name">
+            {att.filename}
+            {att.description && (
+              <span style="display:block;font-size:0.78rem;color:var(--color-gray);font-weight:400;margin-top:0.1rem;">
+                {att.description}
+              </span>
+            )}
+          </span>
+          {att.size && <span class="attachments__size">{att.size}</span>}
+          {att.src && att.src !== "#" ? (
+            <a class="attachments__download" href={url(att.src)} download>Download</a>
+          ) : (
+            <span class="attachments__download attachments__download--unavailable" style="opacity:0.5;cursor:default;pointer-events:none;">Unavailable</span>
+          )}
+        </li>
+      ))}
+    </ul>
+  </div>
+)}

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
+  <rect width="120" height="120" fill="#17497a"/>
+  <text x="60" y="52" text-anchor="middle" font-family="Arial, sans-serif" font-weight="700" font-size="16" fill="#ffffff" letter-spacing="2">DEPT</text>
+  <text x="60" y="74" text-anchor="middle" font-family="Arial, sans-serif" font-weight="700" font-size="16" fill="#ffffff" letter-spacing="2">ACTONA</text>
+  <rect x="30" y="90" width="60" height="3" fill="#d9a12b"/>
+</svg>

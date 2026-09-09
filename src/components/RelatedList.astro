@@ -1,0 +1,24 @@
+---
+import { getReferenceIndex } from "../lib/resolve";
+
+interface Props {
+  ids: string[];
+  label?: string;
+}
+
+const { ids, label = "Related Records" } = Astro.props;
+const index = await getReferenceIndex();
+const resolved = ids
+  .map((id) => index.get(id))
+  .filter((r): r is NonNullable<typeof r> => Boolean(r));
+---
+{resolved.length > 0 && (
+  <div>
+    <h3>{label}</h3>
+    <div class="tag-row">
+      {resolved.map((r) => (
+        <a class="tag" href={r.href}>{r.id}</a>
+      ))}
+    </div>
+  </div>
+)}

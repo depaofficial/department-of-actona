@@ -1,0 +1,54 @@
+---
+import { url } from "../lib/url";
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+<BaseLayout title="Contact" current="contact">
+  <div class="wrap">
+    <div class="breadcrumb"><a href={url("/")}>Home</a><span class="breadcrumb__sep">/</span>Contact</div>
+    <h1>Contact the Department</h1>
+    <p>
+      For general enquiries regarding published records, use the form below or
+      write to the address listed. The Department aims to respond to enquiries
+      within a reasonable timeframe.
+    </p>
+
+    <h2>Correspondence</h2>
+    <table class="meta-table" style="max-width: 480px;">
+      <tbody>
+        <tr>
+          <th scope="row">Office</th>
+          <td>Public Information Office</td>
+        </tr>
+        <tr>
+          <th scope="row">Email</th>
+          <td><a href="mailto:info@actona.example">info@actona.example</a></td>
+        </tr>
+        <tr>
+          <th scope="row">Hours</th>
+          <td>Monday &ndash; Friday, 09:00 &ndash; 17:00</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2 style="margin-top: 1.75rem;">Enquiry Form</h2>
+    <form class="contact-form" action="mailto:info@actona.example" method="get" enctype="text/plain">
+      <div class="field">
+        <label for="name">Name</label>
+        <input id="name" name="name" type="text" required />
+      </div>
+      <div class="field">
+        <label for="email">Email address</label>
+        <input id="email" name="email" type="email" required />
+      </div>
+      <div class="field">
+        <label for="subject">Subject</label>
+        <input id="subject" name="subject" type="text" />
+      </div>
+      <div class="field">
+        <label for="message">Message</label>
+        <textarea id="message" name="message" rows="5" required></textarea>
+      </div>
+      <button class="btn" type="submit">Send Enquiry</button>
+    </form>
+  </div>
+</BaseLayout>

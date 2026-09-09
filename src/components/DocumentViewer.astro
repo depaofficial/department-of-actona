@@ -1,0 +1,60 @@
+---
+import { url } from "../lib/url";
+
+interface DocPage {
+  status: "AVAILABLE" | "RESTRICTED" | "WITHHELD" | "MISSING";
+  image?: string;
+  caption?: string;
+}
+interface Doc {
+  id: string;
+  title: string;
+  classification: string;
+  version: number;
+  versionLabel?: string;
+  pages: DocPage[];
+  downloadUrl?: string;
+}
+interface Props {
+  document: Doc;
+}
+const { document: doc } = Astro.props;
+---
+<div class="doc-viewer">
+  <div class="record-head" style="margin-bottom: 1rem;">
+    <div class="record-head__id mono">{doc.id}</div>
+    <h3 class="record-head__title" style="margin-bottom: 0.4rem;">{doc.title}</h3>
+    <div class="record-head__badges">
+      <span class="badge">{doc.classification}</span>
+      <span class="badge">VERSION {doc.version}{doc.versionLabel ? ` — ${doc.versionLabel}` : ""}</span>
+      {doc.downloadUrl && (
+        <a class="btn" href={url(doc.downloadUrl)} style="margin-left: auto; padding: 0.15rem 0.6rem; font-size: 0.75rem;">Download PDF</a>
+      )}
+    </div>
+  </div>
+
+  {doc.pages.map((page, i) => (
+    <div class="doc-page">
+      <div class="doc-page__head">
+        <span>PAGE {i + 1} / {doc.pages.length}</span>
+        <span class={`badge badge--${page.status.toLowerCase()}`}>{page.status}</span>
+      </div>
+      <div class="doc-page__body">
+        {page.status === "AVAILABLE" && page.image ? (
+          <img src={url(page.image)} alt={page.caption ?? `${doc.title}, page ${i + 1}`} loading="lazy" />
+        ) : page.status === "AVAILABLE" ? (
+          <p class="text-muted" style="margin:0;">{page.caption ?? "No page image on file."}</p>
+        ) : (
+          <div class="doc-page__placeholder">
+            {page.status === "RESTRICTED" && "This page is restricted and is not available for public viewing."}
+            {page.status === "WITHHELD" && "This page has been withheld from the public record."}
+            {page.status === "MISSING" && "This page is not present in the archived file."}
+          </div>
+        )}
+        {page.status === "AVAILABLE" && page.caption && page.image && (
+          <p class="text-muted" style="margin-top: 0.5rem; font-size: 0.82rem;">{page.caption}</p>
+        )}
+      </div>
+    </div>
+  ))}
+</div>

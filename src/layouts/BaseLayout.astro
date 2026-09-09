@@ -1,0 +1,59 @@
+---
+import Header from "../components/Header.astro";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+import BreakingBar from "../components/BreakingBar.astro";
+import LiveBar from "../components/LiveBar.astro";
+import { getCollection } from "astro:content";
+import { url } from "../lib/url";
+import "../styles/global.css";
+
+interface Props {
+  title: string;
+  description?: string;
+  current?: string;
+}
+
+const {
+  title,
+  description = "Official information portal of the Department of ACTONA.",
+  current = "",
+} = Astro.props;
+
+const faviconHref = url("/favicon.svg");
+
+const settings = await getCollection("settings", ({ data }) => data.key === "home");
+const home = settings[0]?.data;
+const breaking = {
+  enabled: home?.breakingEnabled ?? false,
+  label: home?.breakingLabel ?? "Breaking",
+  text: home?.breakingText,
+  href: home?.breakingUrl,
+};
+const live = {
+  enabled: home?.liveEnabled ?? false,
+  label: home?.liveLabel ?? "Live",
+  text: home?.liveText,
+  href: home?.liveUrl,
+};
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <link rel="icon" href={faviconHref} type="image/svg+xml" />
+    <title>{title} — Department of ACTONA</title>
+  </head>
+  <body>
+    <Header />
+    <BreakingBar enabled={breaking.enabled} label={breaking.label} text={breaking.text} href={breaking.href} />
+    <LiveBar enabled={live.enabled} label={live.label} text={live.text} href={live.href} />
+    <Nav current={current} />
+    <main>
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

@@ -1,0 +1,18 @@
+---
+import Emblem from "./Emblem.astro";
+import { url } from "../lib/url";
+---
+<header class="site-header">
+  <div class="site-header__bar">
+    <a class="site-header__wordmark" href={url("/")}>
+      <Emblem />
+      <span>
+        <span class="site-header__id">DEPARTMENT OF ACTONA</span>
+        <span class="site-header__sub">Official Information Portal</span>
+      </span>
+    </a>
+    <div class="site-header__actions">
+      <a href={url("/search/")} class="site-header__search" aria-label="Search">Search</a>
+    </div>
+  </div>
+</header>

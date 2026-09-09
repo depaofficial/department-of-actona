@@ -1,0 +1,23 @@
+{
+  "id": "NEWS",
+  "title": "Historical Disc Discovered During Excavation",
+  "date": "2026-09-20",
+  "department": "Department of ACTONA",
+  "summary": "The Department has confirmed the discovery of an unidentified historical disc during an archaeological excavation.",
+  "banner": {
+    "type": "image",
+    "src": "/banner-placeholder.jpg",
+    "caption": "Excavation Site 4 — recovery in progress. Image: Department of ACTONA."
+  },
+  "body": [
+    "The Department has confirmed the discovery of an unidentified historical disc during an archaeological excavation carried out under a routine site survey.",
+    "The object was recovered in a stable condition and has been transferred to the Department's archival facilities for cataloguing and analysis.",
+    "Initial assessment classifies the material as archaeological in nature. Further findings will be published as the review process continues.",
+    "The Department is coordinating the analysis of the object and any associated materials found at the site."
+  ],
+  "media": [],
+  "relatedRecords": ["ACT-ARC-001"],
+  "breaking": false,
+  "live": false,
+  "published": true
+}

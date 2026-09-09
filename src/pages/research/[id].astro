@@ -1,0 +1,51 @@
+---
+import { url } from "../../lib/url";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import StatusBadge from "../../components/StatusBadge.astro";
+import MetadataTable from "../../components/MetadataTable.astro";
+import RelatedList from "../../components/RelatedList.astro";
+import { getCollection } from "astro:content";
+
+export async function getStaticPaths() {
+  const research = await getCollection("research", ({ data }) => data.published);
+  return research.map((entry) => ({
+    params: { id: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { data } = entry;
+
+const metaRows = [
+  { label: "Category", value: data.category },
+  { label: "Status", value: data.status },
+];
+---
+<BaseLayout title={data.title} current="research">
+  <div class="wrap">
+    <div class="breadcrumb">
+      <a href={url("/")}>Home</a><span class="breadcrumb__sep">/</span>
+      <a href={url("/research/")}>Research</a><span class="breadcrumb__sep">/</span>
+      {data.title}
+    </div>
+
+    <div class="record-head">
+      <h1 class="record-head__title">{data.title}</h1>
+      <div class="record-head__badges">
+        <StatusBadge status={data.status} />
+        <span class="badge">{data.category}</span>
+      </div>
+    </div>
+
+    <p>{data.summary}</p>
+    {data.body.map((paragraph) => <p>{paragraph}</p>)}
+
+    <h2 style="margin-top: 1.75rem;">Metadata</h2>
+    <MetadataTable rows={metaRows} />
+
+    <div style="margin-top: 1.75rem;">
+      <RelatedList ids={data.relatedRecords} />
+    </div>
+  </div>
+</BaseLayout>

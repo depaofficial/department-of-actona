@@ -1,0 +1,43 @@
+{
+  "archiveId": "ACT-ARC-001",
+  "title": "Historical Disc",
+  "date": "2026-09-20",
+  "location": "Excavation Site 4",
+  "category": "ARCHAEOLOGICAL MATERIAL",
+  "status": "UNDER INVESTIGATION",
+  "description": "A circular object of undetermined origin, recovered during a routine excavation survey. The disc has been transferred to Departmental facilities for cataloguing and analysis. Material composition and dating are pending laboratory review.",
+  "media": [],
+  "attachments": [
+    {
+      "filename": "Recovery Report — ACT-ARC-001.pdf",
+      "src": "#",
+      "type": "pdf",
+      "size": "—",
+      "description": "Pending digitisation."
+    },
+    {
+      "filename": "Site photograph 001.jpg",
+      "src": "#",
+      "type": "jpg",
+      "size": "—",
+      "description": "Pending publication."
+    }
+  ],
+  "documents": [
+    {
+      "id": "ACT-DOC-001",
+      "title": "Recovery and Cataloguing Report",
+      "classification": "PUBLIC",
+      "version": 1,
+      "versionLabel": "Published",
+      "pages": [
+        { "status": "AVAILABLE", "caption": "Cover sheet and recovery summary." },
+        { "status": "AVAILABLE", "caption": "Site diagram and recovery conditions." },
+        { "status": "RESTRICTED" }
+      ]
+    }
+  ],
+  "relatedRecords": ["ACT-FLD-001"],
+  "source": "Field Recovery Unit 2",
+  "published": true
+}

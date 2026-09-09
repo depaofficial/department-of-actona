@@ -1,0 +1,71 @@
+---
+import { url } from "../../lib/url";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import RelatedList from "../../components/RelatedList.astro";
+import MediaCarousel from "../../components/MediaCarousel.astro";
+import { getCollection } from "astro:content";
+import { formatDate } from "../../lib/format";
+
+export async function getStaticPaths() {
+  const news = await getCollection("news", ({ data }) => data.published);
+  return news.map((entry) => ({
+    params: { id: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { data } = entry;
+---
+<BaseLayout title={data.title} current="news">
+  <div class="wrap">
+    <div class="breadcrumb">
+      <a href={url("/")}>Home</a><span class="breadcrumb__sep">/</span>
+      <a href={url("/news/")}>News</a><span class="breadcrumb__sep">/</span>
+      {data.title}
+    </div>
+
+    <div class="record-head">
+      {(data.breaking || data.live) && (
+        <span class="tag-group">
+          {data.breaking && <span class="breaking-tag">Breaking</span>}
+          {data.live && (
+            <span class="live-tag"><span class="live-tag__dot" aria-hidden="true"></span>Live</span>
+          )}
+        </span>
+      )}
+      <div class="record-head__id mono">{data.id} &middot; {formatDate(data.date)} &middot; {data.department}</div>
+      <h1 class="record-head__title">{data.title}</h1>
+      <p style="margin:0; color: var(--color-gray); font-size: 0.95rem;">{data.summary}</p>
+    </div>
+  </div>
+
+  {/* ── Banner: full-width image or video ── */}
+  {data.banner && (
+    <div class="news-banner" style="margin-bottom: 0;">
+      {data.banner.type === "image" ? (
+        <img src={url(data.banner.src)} alt={data.banner.caption ?? data.title} />
+      ) : (
+        <video
+          src={url(data.banner.src)}
+          poster={data.banner.poster ? url(data.banner.poster) : undefined}
+          controls
+        />
+      )}
+      {data.banner.caption && (
+        <div class="news-banner__caption">{data.banner.caption}</div>
+      )}
+    </div>
+  )}
+
+  <div class="wrap" style="margin-top: 1.75rem;">
+    {data.body.map((paragraph) => <p>{paragraph}</p>)}
+
+    {/* ── Inline body media: carousel of images and videos ── */}
+    {data.media.length > 0 && (
+      <MediaCarousel items={data.media} label={data.title} />
+    )}
+
+    <RelatedList ids={data.relatedRecords} />
+  </div>
+</BaseLayout>
