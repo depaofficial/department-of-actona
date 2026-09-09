@@ -17,7 +17,7 @@ import { defineConfig } from "astro/config";
 //     site: "https://your-domain.example",
 //     base: "/",
 export default defineConfig({
-  site: "https://actona-mp3.github.io",
+  site: "https://depaofficial.github.io",
   base: "/department-of-actona",
   trailingSlash: "always",
 });
